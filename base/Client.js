@@ -1,0 +1,71 @@
+const { Client, Intents } = require('discord.js');
+const { lstatSync, readdirSync } = require('fs');
+
+class CustomClient extends Client {
+  constructor(options) {
+    super({
+      allowedMentions: { parse: ['users'], repliedUser: true },
+      partials: ['MESSAGE', 'CHANNEL', 'GUILD_MEMBER', 'REACTION', 'GUILD_VOICE_STATES'],
+      intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_BANS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Intents.FLAGS.GUILD_INTEGRATIONS, Intents.FLAGS.GUILD_WEBHOOKS, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_MESSAGE_TYPING, Intents.FLAGS.DIRECT_MESSAGES, Intents.FLAGS.DIRECT_MESSAGE_REACTIONS, Intents.FLAGS.DIRECT_MESSAGE_TYPING]
+    });
+
+    this.commands = {};
+    this.buttons = {};
+    this.selectmenus = {};
+    this.slashs = [];
+    this.config = options.config;
+  }
+
+  login(token) {
+    super.login(token);
+
+    return this;
+  }
+
+  loadSlashs() {
+    readdirSync('./src/slashs').forEach(category => readdirSync(`./commands/${category}`).filter(file => lstatSync('./commands/' + category + '/' + file).isFile() && file.endsWith('.js')).forEach(file => {
+      const command = new (require(`../commands/${category}/${file}`))(this);
+      const commandName = file.split('.')[0];
+      if (command.type == 1) {
+        this.slashs.push({ name: commandName, description: command.help.description, options: command.help.options, type: command.help.type });
+      } else {
+        this.slashs.push({ name: commandName, type: command.help.type });
+      }
+      this.commands[commandName] = { run: command.run, help: Object.assign(command.help, { category: category, name: commandName }) };
+    }));
+
+    return this;
+  }
+
+  loadEvents() {
+    readdirSync('./events').forEach(category => {
+      readdirSync(`./events/${category}`).forEach(file => {
+        const event = new (require(`../events/${category}/${file}`))(this);
+
+        super.on(file.split('.')[0], (...args) => event.run(...args));
+      });
+    });
+
+    return 1;
+  }
+
+  // loadButtons() {
+  //   readdirSync('./buttons').forEach(file => {
+  //     const button = new (require(`../buttons/${file}`))(this);
+  //     this.buttons[button.name] = button;
+  //   });
+
+  //   return 1;
+  // }
+
+  // loadSelectMenus() {
+  //   readdirSync('./selectmenus').forEach(file => {
+  //     const selectmenu = new (require(`../selectmenus/${file}`))(this);
+  //     this.selectmenus[selectmenu.name] = selectmenu;
+  //   });
+
+  //   return 1;
+  // }
+}
+
+module.exports = CustomClient;
