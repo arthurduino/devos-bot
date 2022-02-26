@@ -1,0 +1,12 @@
+{
+  "colors": {
+    "blue": "#3e70dd",
+    "green": "#51b581",
+    "red": "#ed4245"
+  },
+  "footer": "Devos Bot - Official Bot of Devos Code",
+  "presence": {
+    "type": "online",
+    "status": "Devos Bot | 2022"
+  }
+}
