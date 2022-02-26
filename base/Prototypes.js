@@ -6,20 +6,19 @@ const { Collection, Interaction } = require('discord.js');
  * @param { ?boolean } [param1.replied]
  */
 Interaction.prototype.success = async function(args, { replied = true } = {}) {
+  const message = {
+    embeds: [{
+      color: this.client.config.colors.green,
+      title: 'Succès',
+      description: `${this.client.config.emojis.success} \`-\` ${args}`,
+      footer: { icon_url: this.client.user.displayAvatarURL(), text: this.client.config.footer }
+    }]
+  };
+
   if (replied === true) {
-    return this.reply({
-      embeds: [{
-        color: this.client.config.colors.green,
-        description: `${this.client.config.emojis.success} \`-\` ${args}`
-      }]
-    });
+    return this.reply(message);
   } else {
-    return this.channel.send({
-      embeds: [{
-        color: this.client.config.colors.green,
-        description: `${this.client.config.emojis.success} \`-\` ${args}`
-      }]
-    });
+    return this.channel.send(message);
   }
 };
 
@@ -29,20 +28,19 @@ Interaction.prototype.success = async function(args, { replied = true } = {}) {
  * @param { ?boolean } [param1.replied]
  */
 Interaction.prototype.error = async function(args, { replied = true } = {}) {
+  const message = {
+    embeds: [{
+      color: this.client.config.colors.red,
+      title: 'Erreur',
+      description: `${this.client.config.emojis.error} \`-\` ${args}`,
+      footer: { icon_url: this.client.user.displayAvatarURL(), text: this.client.config.footer }
+    }]
+  };
+
   if (replied === true) {
-    return this.reply({
-      embeds: [{
-        color: this.client.config.colors.red,
-        description: `${this.client.config.emojis.error} \`-\` ${args}`
-      }]
-    });
+    return this.reply(message);
   } else {
-    return this.channel.send({
-      embeds: [{
-        color: this.client.config.colors.red,
-        description: `${this.client.config.emojis.error} \`-\` ${args}`
-      }]
-    });
+    return this.channel.send(message);
   }
 };
 

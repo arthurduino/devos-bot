@@ -1,12 +1,18 @@
 {
+  "autorole_roles": ["759433065457123328", "759701153742454794", "930136305306832957", "759701287255932938"],
+  "disboard_id": "302050872383242240",
   "colors": {
     "blue": "#3e70dd",
     "green": "#51b581",
     "red": "#ed4245"
   },
+  "emojis": {
+    "error": ":x:",
+    "success": ":white_check_mark:"
+  },
   "footer": "Devos Bot - Official Bot of Devos Code",
   "presence": {
     "type": "online",
-    "status": "Devos Bot | 2022"
+    "status": "/help | Bot of Devos Code"
   }
 }
