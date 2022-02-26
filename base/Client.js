@@ -22,16 +22,18 @@ class CustomClient extends Client {
     return this;
   }
 
-  loadSlashs() {
-    readdirSync('./src/slashs').forEach(category => readdirSync(`./commands/${category}`).filter(file => lstatSync('./commands/' + category + '/' + file).isFile() && file.endsWith('.js')).forEach(file => {
-      const command = new (require(`../commands/${category}/${file}`))(this);
+  loadCommands() {
+    readdirSync('./commands').forEach(category => readdirSync(`./commands/${category}`).filter(file => lstatSync('./commands/' + category + '/' + file).isFile() && file.endsWith('.js')).forEach(file => {
+      const command = require(`../commands/${category}/${file}`);
       const commandName = file.split('.')[0];
+
       if (command.type == 1) {
-        this.slashs.push({ name: commandName, description: command.help.description, options: command.help.options, type: command.help.type });
+        this.slashs.push({ name: commandName, description: command.description, options: command.options, type: command.type });
       } else {
-        this.slashs.push({ name: commandName, type: command.help.type });
+        this.slashs.push({ name: commandName, type: command.type });
       }
-      this.commands[commandName] = { run: command.run, help: Object.assign(command.help, { category: category, name: commandName }) };
+      this.commands[commandName] = Object.assign(command, { category: category, name: commandName });
+      console.log(this.commands[commandName]);
     }));
 
     return this;
@@ -40,9 +42,9 @@ class CustomClient extends Client {
   loadEvents() {
     readdirSync('./events').forEach(category => {
       readdirSync(`./events/${category}`).forEach(file => {
-        const event = new (require(`../events/${category}/${file}`))(this);
+        const event = require(`../events/${category}/${file}`)
 
-        super.on(file.split('.')[0], (...args) => event.run(...args));
+        super.on(file.split('.')[0], (...args) => event(this, ...args));
       });
     });
 
