@@ -2,10 +2,10 @@ module.exports = {
   description: 'Affiche le nombre de credits que vous avez ou celui d\'un autre utilisateur.',
   type: 1,
   options: [
-    { name: 'member', description: 'Choisissez un membre.', type: 6, required: true }
+    { name: 'member', description: 'Choisissez un membre.', type: 6 }
   ],
   async run({ client, interaction }) {
-    const member = interaction.options.get('member').member || interaction.member;
+    const member = interaction.options.get('member')?.member ?? interaction.member;
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);
     const userDB = usersDB.rows[0];
 
