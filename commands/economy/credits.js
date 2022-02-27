@@ -1,12 +1,13 @@
 module.exports = {
   description: 'Affiche le nombre de credits que vous avez ou celui d\'un autre utilisateur.',
-  type: 1,
+  type: 'CHAT_INPUT',
   options: [
-    { name: 'member', description: 'Choisissez un membre.', type: 6 }
+    { name: 'member', description: 'Choisissez un membre.', type: 'USER' }
   ],
   async run({ client, interaction }) {
     const member = interaction.options.get('member')?.member ?? interaction.member;
 
+    if (!member) return interaction.error('Je ne trouve pas ce membre sur le serveur.');
     if (member.user.bot) return interaction.error('Les bots n\'ont pas de credits.');
 
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);

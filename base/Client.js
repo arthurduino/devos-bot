@@ -30,7 +30,7 @@ class CustomClient extends Client {
       const command = require(`../commands/${category}/${file}`);
       const commandName = file.split('.')[0];
 
-      if (command.type == 1) {
+      if (command.type == 'CHAT_INPUT') {
         this.slashs.push({
           name: commandName,
           description: command.description,
