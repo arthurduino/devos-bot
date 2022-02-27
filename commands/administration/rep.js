@@ -3,10 +3,10 @@ module.exports = {
   type: 'CHAT_INPUT',
   permissions: ['BAN_MEMBERS'],
   options: [
-    { name: 'member', description: 'Choisissez un membre.', type: 'USER', required: true }
+    { name: 'membre', description: 'Choisissez un membre.', type: 'USER', required: true }
   ],
   async run({ client, interaction }) {
-    const member = interaction.options.get('member').member;
+    const member = interaction.options.getMember('membre');
 
     if (!member) return interaction.error('Je ne trouve pas ce membre sur le serveur.');
     if (member.user.bot) return interaction.error('Vous ne pouvez pas donner des credits à un bot.');
@@ -14,12 +14,14 @@ module.exports = {
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);
     const userDB = usersDB.rows[0];
 
+    const credits_number = member.roles.cache.has(client.config.booster_role) ? 2 : 1;
+
     if (!userDB) {
-      await client.pool.query(`INSERT INTO users(id, credits, experience, level) VALUES (${member.id}, 1, 0, 0)`);
+      await client.pool.query(`INSERT INTO users(id, credits, experience, level) VALUES (${member.id}, ${credits_number}, 0, 0)`);
     } else {
-      await client.pool.query(`UPDATE users SET credits =  ${userDB.credits + 1} WHERE id = ${member.id}`);
+      await client.pool.query(`UPDATE users SET credits =  ${userDB.credits + credits_number} WHERE id = ${member.id}`);
     }
 
-    interaction.success(`J'ai donné \`1\` credit à ${member.toString()}. Merci à lui pour sa participation.`);
+    interaction.success(`J'ai donné \`${credits_number}\` credit${credits_number > 1 ? 's' : ''} à ${member.toString()}. Merci à lui pour sa participation.`);
   }
 };

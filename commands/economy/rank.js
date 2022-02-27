@@ -1,12 +1,11 @@
 module.exports = {
-  description: 'affiche son niveau ou celui d\'un utilisateur.',
+  description: 'Affiche ton niveau ou celui d\'un utilisateur.',
   type: 'CHAT_INPUT',
-  permissions: ['BAN_MEMBERS'],
   options: [
-    { name: 'member', description: 'Choisissez un membre.', type: 'USER' }
+    { name: 'membre', description: 'Choisissez un membre.', type: 'USER' }
   ],
   async run({ client, interaction }) {
-    const member = interaction.options.get('member')?.member ?? interaction.member;
+    const member = interaction.options.getMember('membre') || interaction.member;
 
     if (!member) return interaction.error('Je ne trouve pas ce membre sur le serveur.');
     if (member.user.bot) return interaction.error('Les bots n\'ont pas de credits.');

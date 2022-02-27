@@ -2,10 +2,10 @@ module.exports = {
   description: 'Affiche la liste des commande ou des informations sur une commande.',
   type: 'CHAT_INPUT',
   options: [
-    { name: 'command', description: 'Informations sur une commande.', type: 'STRING' }
+    { name: 'commande', description: 'Informations sur une commande.', type: 'STRING' }
   ],
   async run({ client, interaction }) {
-    const commandName = interaction.options.get('command');
+    const commandName = interaction.options.getString('commande');
 
     if (!commandName) {
       interaction.reply({
@@ -22,7 +22,7 @@ module.exports = {
         }]
       });
     } else {
-      const command = client.commands[commandName.value];
+      const command = client.commands[commandName.toLowerCase()];
 
       if (!command) return interaction.error('Je ne trouve pas cette commande.');
 

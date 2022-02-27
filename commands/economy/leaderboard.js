@@ -1,7 +1,6 @@
 module.exports = {
   description: 'Affiche différents classements.',
   type: 'CHAT_INPUT',
-  permissions: ['BAN_MEMBERS'],
   options: [
     { name: 'level', description: 'Affiche le classement des niveaux.', type: 'SUB_COMMAND' }
   ],

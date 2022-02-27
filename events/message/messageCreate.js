@@ -15,22 +15,25 @@ module.exports = async (client, message) => {
 
     await client.pool.query(`UPDATE users SET experience = ${userDB.experience} WHERE id = ${message.member.id}`);
 
+    const credits_number = message.member.roles.cache.has(client.config.booster_role) ? 3 : 2;
+
     if (userDB.experience > xpObjectif) {
-      await client.pool.query(`UPDATE users SET credits = ${userDB.credits + 2}, level = ${userDB.level + 1} WHERE id = ${message.member.id}`);
-      message.channel.send(`Bravo ${message.member.toString()} ! Vous venez de passer au niveau **${userDB.level + 1}**. Vous gagnez \`2\` credits en récompense.`);
+      await client.pool.query(`UPDATE users SET credits = ${userDB.credits + credits_number}, level = ${userDB.level + 1} WHERE id = ${message.member.id}`);
+      message.channel.send(`Bravo ${message.member.toString()} ! Vous venez de passer au niveau **${userDB.level + 1}**. Vous gagnez \`${credits_number}\` credits en récompense.`);
     }
   }
 
   if (message.author.id == client.config.disboard_id) {
-    console.log(message.embeds[0].color);
     if (message.embeds[0].color == 2406327) {
       const member = message.guild.members.cache.get(message.embeds[0].description.split(' ')[0].replace('<@', '').replace('>', ''));
 
       const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${member.id}`);
       const userDB = usersDB.rows[0];
 
-      await client.pool.query(`UPDATE users SET credits = ${userDB.credits + 0.5} WHERE id = ${member.id}`);
-      message.channel.send(`Merci ${member.toString()} d'avoir bump le serveur. Voici \`0.5\` credit en récompense.`);
+      const credits_number = message.member.roles.cache.has(client.config.booster_role) ? 1 : 0.5;
+
+      await client.pool.query(`UPDATE users SET credits = ${userDB.credits + credits_number} WHERE id = ${member.id}`);
+      message.channel.send(`Merci ${member.toString()} d'avoir bump le serveur. Voici \`${credits_number}\` credit en récompense.`);
     }    
   }
 };
