@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Affiche le nombre de credits que vous avez ou celui d\'un autre utilisateur.',
+  description: 'Crée vote profil si vous n\'en avez pas.',
   type: 1,
   async run({ client, interaction }) {
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${interaction.user.id}`);

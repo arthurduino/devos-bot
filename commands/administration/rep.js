@@ -1,12 +1,15 @@
 module.exports = {
-  description: 'Affiche le nombre de credits que vous avez ou celui d\'un autre utilisateur.',
+  description: 'Donne 1 credit à une personne ayant aidé.',
   type: 1,
-  role: '946876887618183198',
+  permissions: ['BAN_MEMBERS'],
   options: [
-    { name: 'member', description: 'Choisissez un membre.', type: 6, required: true }
+    { name: 'member', description: 'Choisissez un membre.', type: 'USER', required: true }
   ],
   async run({ client, interaction }) {
     const member = interaction.options.get('member').member;
+
+    if (member.user.bot) return interaction.error('Vous ne pouvez pas donner des credits à un bot.');
+
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);
     const userDB = usersDB.rows[0];
 

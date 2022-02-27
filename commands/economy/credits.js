@@ -6,6 +6,9 @@ module.exports = {
   ],
   async run({ client, interaction }) {
     const member = interaction.options.get('member')?.member ?? interaction.member;
+
+    if (member.user.bot) return interaction.error('Les bots n\'ont pas de credits.');
+
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);
     const userDB = usersDB.rows[0];
 
@@ -18,7 +21,8 @@ module.exports = {
       embeds: [{
         color: client.config.colors.blue,
         title: 'Credits',
-        description: member.id == interaction.member.id ? `Vous avez ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.` : `${member.toString()} a ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.`
+        description: member.id == interaction.member.id ? `Vous avez ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.` : `${member.toString()} a ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.`,
+        footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       }]
     });
   }

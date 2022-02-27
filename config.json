@@ -4,11 +4,15 @@
   "colors": {
     "blue": "#3e70dd",
     "green": "#51b581",
+    "main": "0fcec4",
     "red": "#ed4245"
   },
   "emojis": {
+    "administration": "<:administration:947422837742895164>",
+    "economy": "<:economy:947422888896630794>",
     "error": ":x:",
-    "success": ":white_check_mark:"
+    "success": ":white_check_mark:",
+    "utility": "<:utility:947422908920254465>"
   },
   "footer": "Devos Bot - Official Bot of Devos Code",
   "presence": {

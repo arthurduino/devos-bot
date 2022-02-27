@@ -31,7 +31,14 @@ class CustomClient extends Client {
       const commandName = file.split('.')[0];
 
       if (command.type == 1) {
-        this.slashs.push({ name: commandName, description: command.description, options: command.options, type: command.type });
+        this.slashs.push({
+          name: commandName,
+          description: command.description,
+          options: command.options,
+          permissions: command.permissions || [],
+          defaultPermssion: command.permissions ? false : true,
+          type: command.type
+        });
       } else {
         this.slashs.push({ name: commandName, type: command.type });
       }

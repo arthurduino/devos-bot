@@ -1,7 +1,7 @@
 module.exports = async (client, message) => {
   if (!message.author.bot) {
 
-    const usersDB = await client.pool.query(`SELECT * FROM users where id = ${message.author.id}`);
+    const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${message.author.id}`);
     const userDB = usersDB.rows[0];
 
     if (!userDB) {
@@ -10,10 +10,17 @@ module.exports = async (client, message) => {
   }
 
   if (message.author.id == client.config.disboard_id) {
-    const user = message.guild.members.cache.get(message.embeds[0].description.split(' ')[0].replace('<@', '').replace('>', ''));
-    const userDB = await client.pool.query(`SELECT * FROM users where id = ${user.id}`);
+    console.log('1');
+    console.log(message.embeds[0].color);
+    if (message.embeds[0].color == '#24b7b7') {
+      console.log('2');
+      const member = message.guild.members.cache.get(message.embeds[0].description.split(' ')[0].replace('<@', '').replace('>', ''));
 
-    await client.pool.query(`UPDATE users SET credits =  ${userDB.credits + 0.5} WHERE id = ${user.id}`);
-    message.channel.send(`Merci ${user.toString()} d'avoir bump le serveur. Voici 0.5 credit en récompense.`);
+      const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${member.id}`);
+      const userDB = usersDB.rows[0];
+
+      await client.pool.query(`UPDATE users SET credits = ${userDB.credits + 0.5} WHERE id = ${member.id}`);
+      message.channel.send(`Merci ${member.toString()} d'avoir bump le serveur. Voici 0.5 credit en récompense.`);
+    }    
   }
 };
