@@ -1,5 +1,5 @@
 module.exports = {
-  description: 'Donne 1 credit à une personne ayant aidé.',
+  description: 'affiche son niveau ou celui d\'un utilisateur.',
   type: 'CHAT_INPUT',
   permissions: ['BAN_MEMBERS'],
   options: [
@@ -11,7 +11,7 @@ module.exports = {
     if (!member) return interaction.error('Je ne trouve pas ce membre sur le serveur.');
     if (member.user.bot) return interaction.error('Les bots n\'ont pas de credits.');
 
-    const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);
+    const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${member.id}`);
     const userDB = usersDB.rows[0];
 
     if (!userDB) {
@@ -26,6 +26,7 @@ module.exports = {
     interaction.reply({
       embeds: [{
         color: client.config.colors.main,
+        author: { name: member.user.tag, icon_url: member.user.displayAvatarURL() },
         title: 'Rank',
         description: `Niveau : ${userDB.level}\nExperience : ${pourcentage} / ${xpObjectif}\n\n${client.config.emojis.xpbar_left}${client.config.emojis.xpbar_full.repeat(Math.floor(pourcentage / 7))}${client.config.emojis.xpbar_empty.repeat(Math.floor((100 - pourcentage) / 7))}${client.config.emojis.xpbar_right}`,
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }

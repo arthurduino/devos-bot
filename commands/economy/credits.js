@@ -21,6 +21,7 @@ module.exports = {
     interaction.reply({
       embeds: [{
         color: client.config.colors.blue,
+        author: { name: member.user.tag, icon_url: member.user.displayAvatarURL() },
         title: 'Credits',
         description: member.id == interaction.member.id ? `Vous avez ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.` : `${member.toString()} a ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.`,
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
