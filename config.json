@@ -1,4 +1,5 @@
 {
+  "ad_role": "947985140003528705",
   "autorole_roles": ["759433065457123328", "759701153742454794", "930136305306832957", "759701287255932938"],
   "booster_role": "774657788223029280",
   "disboard_id": "302050872383242240",
@@ -14,8 +15,8 @@
     "error": ":x:",
     "success": ":white_check_mark:",
     "utility": "<:utility:947422908920254465>",
-    "xpbar_empty": "<:xpbar_empty:947467716766335016>",
-    "xpbar_full": "<:xpbar_full:947467673439195186>",
+    "xpbar_empty": "<:xpbar_empty:947467673439195186>",
+    "xpbar_full": "<:xpbar_full:947467716766335016>",
     "xpbar_left": "<:xpbar_left:947467373655511050>",
     "xpbar_right": "<:xpbar_right:947467751025430571>"
   },
@@ -23,5 +24,8 @@
   "presence": {
     "type": "online",
     "status": "/help | Bot of Devos Code"
-  }
+  },
+  "shope": [
+    { "credits": 10, "item": "ad_role" }
+  ]
 }
