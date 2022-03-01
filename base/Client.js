@@ -43,6 +43,23 @@ class CustomClient extends Client {
         this.slashs.push({ name: commandName, type: command.type });
       }
       this.commands[commandName] = Object.assign(command, { category: category, name: commandName });
+
+      if (command.aliases) {
+        command.aliases.forEach(alias => {
+          if (command.type == 'CHAT_INPUT') {
+            this.slashs.push({
+              name: alias,
+              description: command.description,
+              options: command.options,
+              permissions: command.permissions || [],
+              defaultPermssion: command.permissions ? false : true,
+              type: command.type
+            });
+          } else {
+            this.slashs.push({ name: alias, type: command.type });
+          }
+        });
+      }
     }));
 
     return this;

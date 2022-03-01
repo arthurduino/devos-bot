@@ -22,7 +22,7 @@ module.exports = {
         }]
       });
     } else {
-      const command = client.commands[commandName.toLowerCase()];
+      const command = client.commands[commandName.toLowerCase()] || Object.values(client.commands).find(c => c.aliases?.includes(commandName.toLowerCase()));
 
       if (!command) return interaction.error('Je ne trouve pas cette commande.');
 
@@ -33,6 +33,10 @@ module.exports = {
         fields: [],
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
+
+      if (command.aliases) {
+        embed.fields.push({ name: 'Aliases', value: command.aliases.map(a => `\`${a}\``).join(', ') });
+      }
 
       if (command.options) {
         embed.fields.push({ name: 'Options', value: command.options.map(o => `\`${o.name}\`: ${o.description}`).join('\n') });

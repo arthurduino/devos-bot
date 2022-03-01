@@ -1,6 +1,7 @@
 module.exports = {
   description: 'Affiche le nombre de credits que vous avez ou celui d\'un autre utilisateur.',
   type: 'CHAT_INPUT',
+  aliases: ['balance'],
   options: [
     { name: 'membre', description: 'Choisissez un membre.', type: 'USER' }
   ],

@@ -1,6 +1,7 @@
 module.exports = {
   description: 'Affiche ton niveau ou celui d\'un utilisateur.',
   type: 'CHAT_INPUT',
+  aliases: ['level'],
   options: [
     { name: 'membre', description: 'Choisissez un membre.', type: 'USER' }
   ],
