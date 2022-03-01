@@ -19,9 +19,9 @@ module.exports = {
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
 
-      usersDB.rows.map(userDB => {
+      usersDB.rows.map((userDB, i) => {
         const member = interaction.guild.members.cache.get(userDB.id);
-        embed.fields.push({ name: `${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
+        embed.fields.push({ name: `${i}. ${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
       });
 
       interaction.reply({ embeds: [embed] });
@@ -36,9 +36,9 @@ module.exports = {
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
 
-      usersDB.rows.map(userDB => {
+      usersDB.rows.map((userDB, i) => {
         const member = interaction.guild.members.cache.get(userDB.id);
-        embed.fields.push({ name: `${member.user.username}#${member.user.discriminator}`, value: `Credits : ${userDB.credits}` });
+        embed.fields.push({ name: `${i}. ${member.user.username}#${member.user.discriminator}`, value: `Credits : ${userDB.credits}` });
       });
 
       interaction.reply({ embeds: [embed] });
