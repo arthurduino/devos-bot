@@ -21,7 +21,7 @@ module.exports = {
 
       usersDB.rows.map((userDB, i) => {
         const member = interaction.guild.members.cache.get(userDB.id);
-        embed.fields.push({ name: `${i}. ${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
+        embed.fields.push({ name: `${i + 1}. ${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
       });
 
       interaction.reply({ embeds: [embed] });
@@ -38,7 +38,7 @@ module.exports = {
 
       usersDB.rows.map((userDB, i) => {
         const member = interaction.guild.members.cache.get(userDB.id);
-        embed.fields.push({ name: `${i}. ${member.user.username}#${member.user.discriminator}`, value: `Credits : ${userDB.credits}` });
+        embed.fields.push({ name: `${i + 1}. ${member.user.username}#${member.user.discriminator}`, value: `Credits : ${userDB.credits}` });
       });
 
       interaction.reply({ embeds: [embed] });
