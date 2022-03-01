@@ -1,7 +1,7 @@
 module.exports = {
   description: 'Affiche le magasin pour vous achetez des produits.',
   type: 'CHAT_INPUT',
-  aliases: ['shope'],
+  aliases: ['shop'],
   async run({ client, interaction }) {
     const embed = {
       color: client.config.colors.main,
