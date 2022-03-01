@@ -19,6 +19,9 @@ module.exports = {
       else return interaction.error(`${member.toString()} n'a pas de niveau.`);
     }
 
+    const ranks = await client.pool.query(`WITH ranking AS (SELECT id, experience, DENSE_RANK() OVER (ORDER BY experience DESC) AS position FROM public.users) SELECT * from ranking WHERE id = 945318973807935558;`);
+    const rank = ranks.rows[0];
+
     const xpObjectif = userDB.level ** 2 * 100;
 
     const pourcentage = userDB.experience * 100 / xpObjectif;
@@ -28,7 +31,7 @@ module.exports = {
         color: client.config.colors.main,
         author: { name: member.user.tag, icon_url: member.user.displayAvatarURL() },
         title: 'Rank',
-        description: `Niveau : ${userDB.level}\nExperience : ${xpObjectif - (xpObjectif - userDB.experience)} / ${xpObjectif}\n\n${client.config.emojis.xpbar_left}${client.config.emojis.xpbar_full.repeat(Math.floor(pourcentage / 7))}${client.config.emojis.xpbar_empty.repeat(Math.floor((100 - pourcentage) / 7))}${client.config.emojis.xpbar_right}`,
+        description: `Rank : ${rank.position}\nNiveau : ${userDB.level}\nExperience : ${xpObjectif - (xpObjectif - userDB.experience)} / ${xpObjectif}\n\n${client.config.emojis.xpbar_left}${client.config.emojis.xpbar_full.repeat(Math.floor(pourcentage / 7))}${client.config.emojis.xpbar_empty.repeat(Math.floor((100 - pourcentage) / 7))}${client.config.emojis.xpbar_right}`,
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       }]
     });
