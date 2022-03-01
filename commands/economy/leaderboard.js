@@ -20,7 +20,6 @@ module.exports = {
 
       await usersDB.rows.map(async userDB => {
         const member = await interaction.guild.members.fetch(userDB.id);
-        console.log(member.user);
         embed.fields.push({ name: `${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
       });
 

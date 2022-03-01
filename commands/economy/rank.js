@@ -22,12 +22,14 @@ module.exports = {
 
     const pourcentage = userDB.experience * 100 / xpObjectif;
 
+    console.log(pourcentage);
+
     interaction.reply({
       embeds: [{
         color: client.config.colors.main,
         author: { name: member.user.tag, icon_url: member.user.displayAvatarURL() },
         title: 'Rank',
-        description: `Niveau : ${userDB.level}\nExperience : ${pourcentage} / ${xpObjectif}\n\n${client.config.emojis.xpbar_left}${client.config.emojis.xpbar_full.repeat(Math.floor(pourcentage / 7))}${client.config.emojis.xpbar_empty.repeat(Math.floor((100 - pourcentage) / 7))}${client.config.emojis.xpbar_right}`,
+        description: `Niveau : ${userDB.level}\nExperience : ${xpObjectif - (xpObjectif - userDB.experience)} / ${xpObjectif}\n\n${client.config.emojis.xpbar_left}${client.config.emojis.xpbar_full.repeat(Math.floor(pourcentage / 7))}${client.config.emojis.xpbar_empty.repeat(Math.floor((100 - pourcentage) / 7))}${client.config.emojis.xpbar_right}`,
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       }]
     });

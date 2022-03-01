@@ -73,7 +73,6 @@ class CustomClient extends Client {
     readdirSync('./selectmenus').forEach(file => {
       const selectmenu = require(`../selectmenus/${file}`);
       const selectmenuName = file.split('.')[0];
-      console.log(selectmenuName);
       this.selectmenus[selectmenuName] = Object.assign(selectmenu, { name: selectmenuName });
     });
 

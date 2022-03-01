@@ -1,7 +1,23 @@
 module.exports = {
   description: 'Donne 1 credit à une personne ayant aidé.',
   type: 'CHAT_INPUT',
-  permissions: ['BAN_MEMBERS'],
+  permissions: [
+    {
+      type: 1,
+      id: '786699378252578877',
+      permission: true
+    },
+    {
+      type: 1,
+      id: '777210157305954374',
+      permission: true
+    },
+    {
+      type: 1,
+      id: '759432774142394379',
+      permission: true
+    }
+  ],
   options: [
     { name: 'membre', description: 'Choisissez un membre.', type: 'USER', required: true }
   ],
