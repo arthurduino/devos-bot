@@ -69,14 +69,16 @@ class CustomClient extends Client {
   //   return 1;
   // }
 
-  // loadSelectMenus() {
-  //   readdirSync('./selectmenus').forEach(file => {
-  //     const selectmenu = new (require(`../selectmenus/${file}`))(this);
-  //     this.selectmenus[selectmenu.name] = selectmenu;
-  //   });
+  loadSelectMenus() {
+    readdirSync('./selectmenus').forEach(file => {
+      const selectmenu = require(`../selectmenus/${file}`);
+      const selectmenuName = file.split('.')[0];
+      console.log(selectmenuName);
+      this.selectmenus[selectmenuName] = Object.assign(selectmenu, { name: selectmenuName });
+    });
 
-  //   return 1;
-  // }
+    return 1;
+  }
 }
 
 module.exports = CustomClient;
