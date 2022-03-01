@@ -8,7 +8,7 @@ module.exports = {
     const userDB = usersDB.rows[0];
 
     if (!userDB) return interaction.error('Votre profil n\'est pas enregistré. Faites la commande `/create-profile` ou envoyez un message pour enregistrer un profil.');
-    if (userDB.credits < item.credits) return interaction.error(`Il vous manque ${item.credits - userDB.credits} credits pour acheter ce produit.`);
+    if (userDB.credits < item.credits) return interaction.error(`${interaction.user.toString()}, Il vous manque ${item.credits - userDB.credits} credits pour acheter ce produit.`);
 
     if (item.item == 'ad_role') {
       if (interaction.member.roles.cache.has(client.config.ad_role)) return interaction.error('Vous avez déjà achetr ce produit.');
