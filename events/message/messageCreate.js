@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
 
     const xpObjectif = userDB.level ** 2 * 100;
 
-    userDB.experience += Math.floor(Math.random() * 5) + 5;
+    userDB.experience += Math.floor(Math.random() * 10) + 5;
 
     await client.pool.query(`UPDATE users SET experience = ${userDB.experience} WHERE id = ${message.member.id}`);
 
@@ -32,7 +32,7 @@ module.exports = async (client, message) => {
       const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${member.id}`);
       const userDB = usersDB.rows[0];
 
-      const credits_number = message.member.roles.cache.has(client.config.booster_role) ? 1 : 0.5;
+      const credits_number = member.roles.cache.has(client.config.booster_role) ? 1 : 0.5;
 
       await client.pool.query(`UPDATE users SET credits = ${userDB.credits + credits_number} WHERE id = ${member.id}`);
       message.channel.send(`Merci ${member.toString()} d'avoir bump le serveur. Voici \`${credits_number}\` credit en récompense.`);
