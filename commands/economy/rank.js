@@ -19,7 +19,7 @@ module.exports = {
       else return interaction.error(`${member.toString()} n'a pas de niveau.`);
     }
 
-    const ranks = await client.pool.query(`WITH ranking AS (SELECT id, experience, DENSE_RANK() OVER (ORDER BY experience DESC) AS position FROM public.users) SELECT * from ranking WHERE id = 945318973807935558;`);
+    const ranks = await client.pool.query(`WITH ranking AS (SELECT id, experience, DENSE_RANK() OVER (ORDER BY experience DESC) AS position FROM public.users) SELECT * from ranking WHERE id = ${member.id};`);
     const rank = ranks.rows[0];
 
     const xpObjectif = userDB.level ** 2 * 100;
