@@ -19,8 +19,8 @@ module.exports = {
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
 
-      await usersDB.rows.map(async userDB => {
-        const member = await interaction.guild.members.fetch(userDB.id);
+      usersDB.rows.map(userDB => {
+        const member = interaction.guild.members.cache.get(userDB.id);
         embed.fields.push({ name: `${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
       });
 
@@ -36,8 +36,8 @@ module.exports = {
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
 
-      await usersDB.rows.map(async userDB => {
-        const member = await interaction.guild.members.fetch(userDB.id);
+      usersDB.rows.map(userDB => {
+        const member = interaction.guild.members.cache.get(userDB.id);
         embed.fields.push({ name: `${member.user.username}#${member.user.discriminator}`, value: `Credits : ${userDB.credits}` });
       });
 
