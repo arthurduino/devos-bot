@@ -27,6 +27,8 @@ module.exports = async (client, message) => {
     if (message.embeds[0].color == 2406327) {
       const member = message.guild.members.cache.get(message.embeds[0].description.split(' ')[0].replace('<@', '').replace('>', ''));
 
+      if (!member) return;
+
       const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${member.id}`);
       const userDB = usersDB.rows[0];
 

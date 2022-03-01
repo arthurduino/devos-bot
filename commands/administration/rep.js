@@ -3,17 +3,17 @@ module.exports = {
   type: 'CHAT_INPUT',
   permissions: [
     {
-      type: 1,
+      type: 'ROLE',
       id: '786699378252578877',
       permission: true
     },
     {
-      type: 1,
+      type: 'ROLE',
       id: '777210157305954374',
       permission: true
     },
     {
-      type: 1,
+      type: 'ROLE',
       id: '759432774142394379',
       permission: true
     }

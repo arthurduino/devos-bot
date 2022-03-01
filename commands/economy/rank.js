@@ -22,8 +22,6 @@ module.exports = {
 
     const pourcentage = userDB.experience * 100 / xpObjectif;
 
-    console.log(pourcentage);
-
     interaction.reply({
       embeds: [{
         color: client.config.colors.main,

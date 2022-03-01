@@ -5,14 +5,15 @@ const { Collection, Interaction } = require('discord.js');
  * @param { object } param1
  * @param { ?boolean } [param1.replied]
  */
-Interaction.prototype.success = async function(args, { replied = true } = {}) {
+Interaction.prototype.success = async function(args, { replied = true, ephemeral = false } = {}) {
   const message = {
     embeds: [{
       color: this.client.config.colors.green,
       title: 'Succès',
       description: `${this.client.config.emojis.success} \`-\` ${args}`,
       footer: { icon_url: this.client.user.displayAvatarURL(), text: this.client.config.footer }
-    }]
+    }],
+    ephemeral
   };
 
   if (replied === true) {
@@ -27,14 +28,15 @@ Interaction.prototype.success = async function(args, { replied = true } = {}) {
  * @param { object } param1
  * @param { ?boolean } [param1.replied]
  */
-Interaction.prototype.error = async function(args, { replied = true } = {}) {
+Interaction.prototype.error = async function(args, { replied = true, ephemeral = false } = {}) {
   const message = {
     embeds: [{
       color: this.client.config.colors.red,
       title: 'Erreur',
       description: `${this.client.config.emojis.error} \`-\` ${args}`,
       footer: { icon_url: this.client.user.displayAvatarURL(), text: this.client.config.footer }
-    }]
+    }],
+    ephemeral
   };
 
   if (replied === true) {
