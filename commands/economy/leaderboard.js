@@ -11,35 +11,54 @@ module.exports = {
     if (leadeboard_type == 'level') {
       const usersDB = await client.pool.query('SELECT * FROM users ORDER BY experience DESC LIMIT 10');
 
+      const ranks = await client.pool.query(`WITH ranking AS (SELECT id, experience, DENSE_RANK() OVER (ORDER BY experience DESC) AS position FROM public.users) SELECT * from ranking WHERE id = ${interaction.member.id};`);
+      const rank = ranks.rows[0];
+
       const embed = {
         color: client.config.colors.main,
         author: { name: interaction.guild.name, icon_url: interaction.guild.iconURL() },
         title: 'Level Leadeboard',
-        fields: [],
+        description: '',
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
 
       usersDB.rows.map((userDB, i) => {
         const member = interaction.guild.members.cache.get(userDB.id);
-        embed.fields.push({ name: `${i + 1}. ${member.user.username}#${member.user.discriminator}`, value: `Niveau : ${userDB.level}, Experience : ${userDB.experience}` });
+        if (!member) return;
+        embed.description += `${i + 1}. ${member.toString()}\nNiveau : ${userDB.level}, Experience : ${userDB.experience}\n`;
       });
+
+      if (rank.position > usersDB.rows.length) {
+        const personnalUsersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${interaction.member.id}`);
+        const personnalUserDB = personnalUsersDB.rows[0];
+        embed.description += `\n↪ ${rank.position}. ${interaction.member.toString()}\nNiveau : ${personnalUserDB.level}, Experience : ${personnalUserDB.experience}`;
+      }
 
       interaction.reply({ embeds: [embed] });
     } else if (leadeboard_type == 'credits') {
       const usersDB = await client.pool.query('SELECT * FROM users ORDER BY credits DESC LIMIT 10');
 
+      const ranks = await client.pool.query(`WITH ranking AS (SELECT id, credits, DENSE_RANK() OVER (ORDER BY credits DESC) AS position FROM public.users) SELECT * from ranking WHERE id = ${interaction.member.id};`);
+      const rank = ranks.rows[0];
+
       const embed = {
         color: client.config.colors.main,
         author: { name: interaction.guild.name, icon_url: interaction.guild.iconURL() },
         title: 'Credits Leadeboard',
-        fields: [],
+        description: '',
         footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
       };
 
       usersDB.rows.map((userDB, i) => {
         const member = interaction.guild.members.cache.get(userDB.id);
-        embed.fields.push({ name: `${i + 1}. ${member.user.username}#${member.user.discriminator}`, value: `Credits : ${userDB.credits}` });
+        embed.description += `${i + 1}. ${member.toString()}\nCredits : ${userDB.credits}\n`;
       });
+
+      if (rank.position > usersDB.rows.length) {
+        const personnalUsersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${interaction.member.id}`);
+        const personnalUserDB = personnalUsersDB.rows[0];
+        embed.description += `\n↪ ${rank.position}. ${interaction.member.toString()}\nCredits : ${personnalUserDB.credits}`;
+      }
 
       interaction.reply({ embeds: [embed] });
     }

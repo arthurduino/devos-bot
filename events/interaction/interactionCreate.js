@@ -9,7 +9,7 @@ module.exports = (client, interaction) => {
 
       command.permissions.forEach(permission => roles.push(permission.id));
 
-      if (!interaction.member.roles.cache.has(roles)) return interaction.error('Vous n\'avez pas la permission de faire cette commande.', { ephemeral: true });
+      if (!roles.map(r => interaction.member.roles.cache.has(r)).includes(true)) return interaction.error('Vous n\'avez pas la permission de faire cette commande.', { ephemeral: true });
     }
 
     command.run({ client, interaction });

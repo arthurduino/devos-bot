@@ -11,7 +11,7 @@ module.exports = async (client, message) => {
 
     const xpObjectif = userDB.level ** 2 * 100;
 
-    userDB.experience += Math.floor(Math.random() * 10) + 5;
+    userDB.experience += Math.floor(Math.random() * 7) + 5;
 
     await client.pool.query(`UPDATE users SET experience = ${userDB.experience} WHERE id = ${message.member.id}`);
 
