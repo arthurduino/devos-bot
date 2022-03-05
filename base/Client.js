@@ -11,7 +11,7 @@ class CustomClient extends Client {
     });
 
     this.pool = pool;
-    console.log('[PostgreSQL]: I\'m connected.')
+    console.log('[PostgreSQL]: I\'m connected.');
     this.commands = {};
     this.buttons = {};
     this.selectmenus = {};
@@ -31,37 +31,34 @@ class CustomClient extends Client {
         const command = require(`../commands/${category}/${file}`);
         const commandName = file.split('.')[0];
 
-        if (command.type == 'CHAT_INPUT') {
-          this.slashs.push({
+        (command.type == 'CHAT_INPUT')
+          ? this.slashs.push({
             name: commandName,
             description: command.description,
             options: command.options,
             permissions: command.permissions || [],
             defaultPermssion: command.permissions ? false : true,
             type: command.type
-          });
-        } else {
-          this.slashs.push({ name: commandName, type: command.type });
-        }
+          })
+          : this.slashs.push({ name: commandName, type: command.type });
+          
         this.commands[commandName] = Object.assign(command, { category: category, name: commandName });
 
         if (command.aliases) {
           command.aliases.forEach(alias => {
-            if (command.type == 'CHAT_INPUT') {
-              this.slashs.push({
+            (command.type == 'CHAT_INPUT')
+              ? this.slashs.push({
                 name: alias,
                 description: command.description,
                 options: command.options,
                 permissions: command.permissions || [],
                 defaultPermssion: command.permissions ? false : true,
                 type: command.type
-              });
-            } else {
-              this.slashs.push({ name: alias, type: command.type });
-            }
+              })
+              : this.slashs.push({ name: alias, type: command.type });
           });
         }
-      }
+      });
     });
 
     return 1;
@@ -81,8 +78,9 @@ class CustomClient extends Client {
 
   // loadButtons() {
   //   readdirSync('./buttons').forEach(file => {
-  //     const button = new (require(`../buttons/${file}`))(this);
-  //     this.buttons[button.name] = button;
+  //     const button = require(`../buttons/${file}`));
+  //     const buttonName = file.split('.')[0];
+  //     this.buttons[buttonName] = Object.assign(button, { name: buttonName });
   //   });
 
   //   return 1;
