@@ -2,7 +2,11 @@ module.exports = {
   description: 'Affiche la liste des commande ou des informations sur une commande.',
   type: 'CHAT_INPUT',
   options: [
-    { name: 'commande', description: 'Informations sur une commande.', type: 'STRING' }
+    {
+      name: 'commande',
+      description: 'Informations sur une commande.',
+      type: 'STRING'
+    }
   ],
   async run({ client, interaction }) {
     const commandName = interaction.options.getString('commande');
@@ -14,11 +18,23 @@ module.exports = {
           title: 'Liste des commandes',
           description: 'Toutes les commandes ci-dessous s\'effectuent en slash commande (`/`).',
           fields: [
-            { name: `${client.config.emojis.administration} Administration`, value: Object.values(client.commands).filter(c => c.category == 'administration').map(cmd => `\`${cmd.name}\``).join(', ') },
-            { name: `${client.config.emojis.economy} Economie`, value: Object.values(client.commands).filter(c => c.category == 'economy').map(cmd => `\`${cmd.name}\``).join(', ') },
-            { name: `${client.config.emojis.utility} Utilitaire`, value: Object.values(client.commands).filter(c => c.category == 'utility').map(cmd => `\`${cmd.name}\``).join(', ') }
+            {
+              name: `${client.config.emojis.administration} Administration`,
+              value: Object.values(client.commands).filter(c => c.category == 'administration').map(cmd => `\`${cmd.name}\``).join(', ')
+            },
+            {
+              name: `${client.config.emojis.economy} Economie`, 
+              value: Object.values(client.commands).filter(c => c.category == 'economy').map(cmd => `\`${cmd.name}\``).join(', ')
+            },
+            { 
+              name: `${client.config.emojis.utility} Utilitaire`,
+              value: Object.values(client.commands).filter(c => c.category == 'utility').map(cmd => `\`${cmd.name}\``).join(', ')
+            }
           ],
-          footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
+          footer: {
+            icon_url: client.user.displayAvatarURL(),
+            text: client.config.footer
+          }
         }]
       });
     } else {
@@ -31,20 +47,17 @@ module.exports = {
         title: `Commande ${command.name}`,
         description: command.description,
         fields: [],
-        footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
+        footer: {
+          icon_url: client.user.displayAvatarURL(),
+          text: client.config.footer
+        }
       };
 
-      if (command.aliases) {
-        embed.fields.push({ name: 'Aliases', value: command.aliases.map(a => `\`${a}\``).join(', ') });
-      }
+      (command.aliases) && embed.fields.push({ name: 'Aliases', value: command.aliases.map(a => `\`${a}\``).join(', ') });
 
-      if (command.options) {
-        embed.fields.push({ name: 'Options', value: command.options.map(o => `\`${o.name}\`: ${o.description}`).join('\n') });
-      }
+      (command.options) && embed.fields.push({ name: 'Options', value: command.options.map(o => `\`${o.name}\`: ${o.description}`).join('\n') });
 
-      if (command.permissions) {
-        embed.fields.push({ name: 'Permissions', value: command.permissions.map(p => `\`${p}\``).join('\n') });
-      }
+      (command.permissions) && embed.fields.push({ name: 'Permissions', value: command.permissions.map(p => `\`${p}\``).join('\n') });
 
       interaction.reply({ embeds: [embed] });
     }

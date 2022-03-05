@@ -30,11 +30,9 @@ module.exports = {
     const usersDB = await client.pool.query(`SELECT * FROM users where id = ${member.id}`);
     const userDB = usersDB.rows[0];
 
-    if (!userDB) {
-      await client.pool.query(`INSERT INTO users(id, credits, experience, level) VALUES (${member.id}, 1, 0, 0)`);
-    } else {
-      await client.pool.query(`UPDATE users SET credits =  ${userDB.credits + 1} WHERE id = ${member.id}`);
-    }
+    (!userDB) 
+      ? await client.pool.query(`INSERT INTO users(id, credits, experience, level) VALUES (${member.id}, 1, 0, 0)`)
+      : await client.pool.query(`UPDATE users SET credits =  ${userDB.credits + 1} WHERE id = ${member.id}`);
 
     interaction.success(`J'ai donné \`1\` credit à ${member.toString()}. Merci à lui pour sa participation.`);
   }

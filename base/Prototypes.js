@@ -11,16 +11,15 @@ Interaction.prototype.success = async function(args, { replied = true, ephemeral
       color: this.client.config.colors.green,
       title: 'Succès',
       description: `${this.client.config.emojis.success} \`-\` ${args}`,
-      footer: { icon_url: this.client.user.displayAvatarURL(), text: this.client.config.footer }
+      footer: {
+        icon_url: this.client.user.displayAvatarURL(),
+        text: this.client.config.footer
+      }
     }],
     ephemeral
   };
 
-  if (replied === true) {
-    return this.reply(message);
-  } else {
-    return this.channel.send(message);
-  }
+  (replied === true) && this.reply(message) || this.channel.send(message);
 };
 
 /**
@@ -34,16 +33,15 @@ Interaction.prototype.error = async function(args, { replied = true, ephemeral =
       color: this.client.config.colors.red,
       title: 'Erreur',
       description: `${this.client.config.emojis.error} \`-\` ${args}`,
-      footer: { icon_url: this.client.user.displayAvatarURL(), text: this.client.config.footer }
+      footer: {
+        icon_url: this.client.user.displayAvatarURL(),
+        text: this.client.config.footer
+      }
     }],
     ephemeral
   };
 
-  if (replied === true) {
-    return this.reply(message);
-  } else {
-    return this.channel.send(message);
-  }
+  (replied === true) && this.reply(message) || this.channel.send(message);
 };
 
 Interaction.prototype.findMember = async function(arg, { allowAuthor = false, random = false } = {}) {

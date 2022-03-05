@@ -2,8 +2,16 @@ module.exports = {
   description: 'Affiche différents classements.',
   type: 'CHAT_INPUT',
   options: [
-    { name: 'level', description: 'Affiche le classement des niveaux.', type: 'SUB_COMMAND' },
-    { name: 'credits', description: 'Affiche le classement des credits.', type: 'SUB_COMMAND' }
+    {
+      name: 'level',
+      description: 'Affiche le classement des niveaux.',
+      type: 'SUB_COMMAND'
+    },
+    {
+      name: 'credits',
+      description: 'Affiche le classement des credits.',
+      type: 'SUB_COMMAND'
+    }
   ],
   async run({ client, interaction }) {
     const leadeboard_type = interaction.options.getSubcommand();
@@ -16,10 +24,16 @@ module.exports = {
 
       const embed = {
         color: client.config.colors.main,
-        author: { name: interaction.guild.name, icon_url: interaction.guild.iconURL() },
+        author: {
+          name: interaction.guild.name,
+          icon_url: interaction.guild.iconURL()
+        },
         title: 'Level Leadeboard',
         description: '',
-        footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
+        footer: {
+          icon_url: client.user.displayAvatarURL(),
+          text: client.config.footer
+        }
       };
 
       usersDB.rows.map((userDB, i) => {

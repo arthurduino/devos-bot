@@ -1,12 +1,16 @@
 module.exports = async (client, message) => {
   if (!message.author.bot) {
-
     const usersDB = await client.pool.query(`SELECT * FROM users WHERE id = ${message.author.id}`);
     let userDB = usersDB.rows[0];
 
     if (!userDB) {
       await client.pool.query(`INSERT INTO users(id, credits, experience, level) VALUES (${message.author.id}, 0, 0, 1)`);
-      userDB = { id: message.member.id, credits: 0, experience: 0, level: 1 };
+      userDB = {
+        id: message.member.id,
+        credits: 0,
+        experience: 0,
+        level: 1
+      };
     }
 
     const xpObjectif = userDB.level ** 2 * 100;

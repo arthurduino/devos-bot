@@ -26,43 +26,45 @@ class CustomClient extends Client {
   }
 
   loadCommands() {
-    readdirSync('./commands').forEach(category => readdirSync(`./commands/${category}`).filter(file => lstatSync('./commands/' + category + '/' + file).isFile() && file.endsWith('.js')).forEach(file => {
-      const command = require(`../commands/${category}/${file}`);
-      const commandName = file.split('.')[0];
+    readdirSync('./commands').forEach(category => {
+      readdirSync(`./commands/${category}`).filter(file => lstatSync('./commands/' + category + '/' + file).isFile() && file.endsWith('.js')).forEach(file => {
+        const command = require(`../commands/${category}/${file}`);
+        const commandName = file.split('.')[0];
 
-      if (command.type == 'CHAT_INPUT') {
-        this.slashs.push({
-          name: commandName,
-          description: command.description,
-          options: command.options,
-          permissions: command.permissions || [],
-          defaultPermssion: command.permissions ? false : true,
-          type: command.type
-        });
-      } else {
-        this.slashs.push({ name: commandName, type: command.type });
+        if (command.type == 'CHAT_INPUT') {
+          this.slashs.push({
+            name: commandName,
+            description: command.description,
+            options: command.options,
+            permissions: command.permissions || [],
+            defaultPermssion: command.permissions ? false : true,
+            type: command.type
+          });
+        } else {
+          this.slashs.push({ name: commandName, type: command.type });
+        }
+        this.commands[commandName] = Object.assign(command, { category: category, name: commandName });
+
+        if (command.aliases) {
+          command.aliases.forEach(alias => {
+            if (command.type == 'CHAT_INPUT') {
+              this.slashs.push({
+                name: alias,
+                description: command.description,
+                options: command.options,
+                permissions: command.permissions || [],
+                defaultPermssion: command.permissions ? false : true,
+                type: command.type
+              });
+            } else {
+              this.slashs.push({ name: alias, type: command.type });
+            }
+          });
+        }
       }
-      this.commands[commandName] = Object.assign(command, { category: category, name: commandName });
+    });
 
-      if (command.aliases) {
-        command.aliases.forEach(alias => {
-          if (command.type == 'CHAT_INPUT') {
-            this.slashs.push({
-              name: alias,
-              description: command.description,
-              options: command.options,
-              permissions: command.permissions || [],
-              defaultPermssion: command.permissions ? false : true,
-              type: command.type
-            });
-          } else {
-            this.slashs.push({ name: alias, type: command.type });
-          }
-        });
-      }
-    }));
-
-    return this;
+    return 1;
   }
 
   loadEvents() {

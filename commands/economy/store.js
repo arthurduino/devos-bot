@@ -5,11 +5,17 @@ module.exports = {
   async run({ client, interaction }) {
     const embed = {
       color: client.config.colors.main,
-      author: { name: interaction.user.tag, icon_url: interaction.user.displayAvatarURL() },
+      author: {
+        name: interaction.user.tag,
+        icon_url: interaction.user.displayAvatarURL()
+      },
       title: 'Magasin',
       description: `Achetez vous des produits en faisant glisser le menu déroulant.`,
       fields: [],
-      footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
+      footer: {
+        icon_url: client.user.displayAvatarURL(),
+        text: client.config.footer
+      }
     };
 
     const options = [];

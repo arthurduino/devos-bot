@@ -3,7 +3,11 @@ module.exports = {
   type: 'CHAT_INPUT',
   aliases: ['level'],
   options: [
-    { name: 'membre', description: 'Choisissez un membre.', type: 'USER' }
+    {
+      name: 'membre',
+      description: 'Choisissez un membre.',
+      type: 'USER'
+    }
   ],
   async run({ client, interaction }) {
     const member = interaction.options.getMember('membre') || interaction.member;
@@ -15,8 +19,10 @@ module.exports = {
     const userDB = usersDB.rows[0];
 
     if (!userDB) {
-      if (member.id == interaction.member.id) return interaction.error('Vous n\'avez pas de niveau.');
-      else return interaction.error(`${member.toString()} n'a pas de niveau.`);
+      (member.id == interaction.member.id)
+        ? interaction.error('Vous n\'avez pas de niveau.')
+        : interaction.error(`${member.toString()} n'a pas de niveau.`);
+      return;
     }
 
     const ranks = await client.pool.query(`WITH ranking AS (SELECT id, experience, DENSE_RANK() OVER (ORDER BY experience DESC) AS position FROM public.users) SELECT * from ranking WHERE id = ${member.id};`);
@@ -29,10 +35,16 @@ module.exports = {
     interaction.reply({
       embeds: [{
         color: client.config.colors.main,
-        author: { name: member.user.tag, icon_url: member.user.displayAvatarURL() },
+        author: {
+          name: member.user.tag,
+          icon_url: member.user.displayAvatarURL()
+        },
         title: 'Rank',
         description: `Rank : ${rank.position}\nNiveau : ${userDB.level}\nExperience : ${xpObjectif - (xpObjectif - userDB.experience)} / ${xpObjectif}\n\n${client.config.emojis.xpbar_left}${client.config.emojis.xpbar_full.repeat(Math.floor(pourcentage / 7))}${client.config.emojis.xpbar_empty.repeat(Math.floor((100 - pourcentage) / 7))}${client.config.emojis.xpbar_right}`,
-        footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
+        footer: {
+          icon_url: client.user.displayAvatarURL(),
+          text: client.config.footer
+        }
       }]
     });
   }

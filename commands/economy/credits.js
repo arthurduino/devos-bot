@@ -15,17 +15,26 @@ module.exports = {
     const userDB = usersDB.rows[0];
 
     if (!userDB) {
-      if (member.id == interaction.member.id) return interaction.error('Votre profil n\'est pas enregistré. Faites la commande `/create-profile` ou envoyez un message pour enregistrer un profil.');
-      else return interaction.error(`${member.toString()} n'a pas encore de profil.`);
+      (member.id == interaction.member.id)
+        ? interaction.error('Votre profil n\'est pas enregistré. Faites la commande `/create-profile` ou envoyez un message pour enregistrer un profil.')
+        : interaction.error(`${member.toString()} n'a pas encore de profil.`);
+      
+      return;
     }
 
     interaction.reply({
       embeds: [{
         color: client.config.colors.blue,
-        author: { name: member.user.tag, icon_url: member.user.displayAvatarURL() },
+        author: {
+          name: member.user.tag,
+          icon_url: member.user.displayAvatarURL()
+        },
         title: 'Credits',
         description: member.id == interaction.member.id ? `Vous avez ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.` : `${member.toString()} a ${userDB.credits} credit${userDB.credits > 1 ? 's' : ''}.`,
-        footer: { icon_url: client.user.displayAvatarURL(), text: client.config.footer }
+        footer: {
+          icon_url: client.user.displayAvatarURL(),
+          text: client.config.footer
+        }
       }]
     });
   }
