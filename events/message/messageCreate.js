@@ -30,6 +30,7 @@ module.exports = async (client, message) => {
   if (message.author.id == client.config.disboard_id) {
     if (message.embeds[0].color == 2406327) {
       const member = message.guild.members.cache.get(message.embeds[0].description.split(' ')[0].replace('<@', '').replace('>', ''));
+      if(!member) member = message.guild.members.cache.get(message.interaction.user.id)
 
       if (!member) return;
 
